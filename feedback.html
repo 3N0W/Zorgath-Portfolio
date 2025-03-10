@@ -9,13 +9,13 @@
 <body>
 
     <h2>Feedback Section</h2>
-    <button id="signInBtn" onclick="signIn()">Sign in with Google</button>
-    <button id="signOutBtn" onclick="signOut()" style="display: none;">Sign Out</button>
+    <button id="signInBtn">Sign in with Google</button>
+    <button id="signOutBtn" style="display: none;">Sign Out</button>
 
     <form id="feedbackForm">
         <input type="text" id="name" placeholder="Your Name" required>
         <textarea id="message" placeholder="Your Feedback" required></textarea>
-        <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+        <button type="button" id="submitBtn">Submit Feedback</button>
     </form>
 
     <h3>Recent Feedback:</h3>
@@ -24,10 +24,10 @@
     <script type="module">
         // Import Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+        import { getDatabase, ref, push, update, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
-        // Your Firebase configuration
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCIl__nmCqMkLhtLqhlS2JTgvfEkHV-tR0",
             authDomain: "zorgath-portfolio.firebaseapp.com",
@@ -44,34 +44,35 @@
         const auth = getAuth();
         const provider = new GoogleAuthProvider();
 
-        // Function to Sign In
+        // Sign In Function
         function signIn() {
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    const user = result.user;
-                    console.log("Logged in as:", user.displayName);
-                    document.getElementById("signInBtn").style.display = "none";
-                    document.getElementById("signOutBtn").style.display = "block";
+                    console.log("Logged in as:", result.user.displayName);
                 })
-                .catch((error) => {
-                    console.error("Error signing in:", error);
-                });
+                .catch((error) => console.error("Error signing in:", error));
         }
 
-        // Function to Sign Out
+        // Sign Out Function
         function signOutUser() {
-            signOut(auth).then(() => {
-                console.log("User signed out");
+            signOut(auth).then(() => console.log("User signed out"));
+        }
+
+        // Update UI Based on Auth State
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User is logged in:", user.displayName);
+                document.getElementById("signInBtn").style.display = "none";
+                document.getElementById("signOutBtn").style.display = "block";
+            } else {
                 document.getElementById("signInBtn").style.display = "block";
                 document.getElementById("signOutBtn").style.display = "none";
-            });
-        }
+            }
+        });
 
-        document.getElementById("signOutBtn").addEventListener("click", signOutUser);
-
-        // Function to submit feedback
+        // Submit Feedback Function
         function submitFeedback() {
-            const user = auth.currentUser; // Get logged-in user
+            const user = auth.currentUser;
             if (!user) {
                 alert("You must sign in to submit feedback!");
                 return;
@@ -80,33 +81,31 @@
             const name = user.displayName || "Anonymous";
             const message = document.getElementById("message").value;
 
-            if (message) {
+            if (message.trim() !== "") {
                 const feedbackRef = ref(database, "feedback");
                 const newFeedbackRef = push(feedbackRef);
 
-                set(newFeedbackRef, {
+                update(newFeedbackRef, {
                     name: name,
                     message: message
                 }).then(() => {
                     alert("Feedback submitted!");
                     document.getElementById("feedbackForm").reset();
                     loadFeedback();
-                }).catch((error) => {
-                    console.error("Error submitting feedback:", error);
-                });
+                }).catch((error) => console.error("Error submitting feedback:", error));
             } else {
                 alert("Please enter feedback.");
             }
         }
 
-        // Function to display feedback
+        // Load Feedback Function
         function loadFeedback() {
             const feedbackList = document.getElementById("feedbackList");
             feedbackList.innerHTML = "";
 
             const feedbackRef = ref(database, "feedback");
             onValue(feedbackRef, (snapshot) => {
-                feedbackList.innerHTML = ""; // Clear the list before updating
+                feedbackList.innerHTML = "";
                 snapshot.forEach((childSnapshot) => {
                     const data = childSnapshot.val();
                     const div = document.createElement("div");
@@ -117,7 +116,12 @@
             });
         }
 
-        // Load feedback when the page loads
+        // Event Listeners
+        document.getElementById("signInBtn").addEventListener("click", signIn);
+        document.getElementById("signOutBtn").addEventListener("click", signOutUser);
+        document.getElementById("submitBtn").addEventListener("click", submitFeedback);
+
+        // Load feedback on page load
         document.addEventListener("DOMContentLoaded", loadFeedback);
     </script>
 
