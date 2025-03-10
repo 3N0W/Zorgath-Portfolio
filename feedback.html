@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="feedback.css">
+</head>
+<body>
+
+    <h2>Feedback Section</h2>
+    <button id="signInBtn" onclick="signIn()">Sign in with Google</button>
+    <button id="signOutBtn" onclick="signOut()" style="display: none;">Sign Out</button>
+
+    <form id="feedbackForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <textarea id="message" placeholder="Your Feedback" required></textarea>
+        <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+    </form>
+
+    <h3>Recent Feedback:</h3>
+    <div id="feedbackList"></div>
+
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCIl__nmCqMkLhtLqhlS2JTgvfEkHV-tR0",
+            authDomain: "zorgath-portfolio.firebaseapp.com",
+            databaseURL: "https://zorgath-portfolio-default-rtdb.firebaseio.com",
+            projectId: "zorgath-portfolio",
+            storageBucket: "zorgath-portfolio.appspot.com",
+            messagingSenderId: "205159175395",
+            appId: "1:205159175395:web:734f25f6e89c9cfd3721d6"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+
+        // Function to Sign In
+        function signIn() {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log("Logged in as:", user.displayName);
+                    document.getElementById("signInBtn").style.display = "none";
+                    document.getElementById("signOutBtn").style.display = "block";
+                })
+                .catch((error) => {
+                    console.error("Error signing in:", error);
+                });
+        }
+
+        // Function to Sign Out
+        function signOutUser() {
+            signOut(auth).then(() => {
+                console.log("User signed out");
+                document.getElementById("signInBtn").style.display = "block";
+                document.getElementById("signOutBtn").style.display = "none";
+            });
+        }
+
+        document.getElementById("signOutBtn").addEventListener("click", signOutUser);
+
+        // Function to submit feedback
+        function submitFeedback() {
+            const user = auth.currentUser; // Get logged-in user
+            if (!user) {
+                alert("You must sign in to submit feedback!");
+                return;
+            }
+
+            const name = user.displayName || "Anonymous";
+            const message = document.getElementById("message").value;
+
+            if (message) {
+                const feedbackRef = ref(database, "feedback");
+                const newFeedbackRef = push(feedbackRef);
+
+                set(newFeedbackRef, {
+                    name: name,
+                    message: message
+                }).then(() => {
+                    alert("Feedback submitted!");
+                    document.getElementById("feedbackForm").reset();
+                    loadFeedback();
+                }).catch((error) => {
+                    console.error("Error submitting feedback:", error);
+                });
+            } else {
+                alert("Please enter feedback.");
+            }
+        }
+
+        // Function to display feedback
+        function loadFeedback() {
+            const feedbackList = document.getElementById("feedbackList");
+            feedbackList.innerHTML = "";
+
+            const feedbackRef = ref(database, "feedback");
+            onValue(feedbackRef, (snapshot) => {
+                feedbackList.innerHTML = ""; // Clear the list before updating
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val();
+                    const div = document.createElement("div");
+                    div.classList.add("feedback-item");
+                    div.innerHTML = `<strong>${data.name}:</strong> ${data.message}`;
+                    feedbackList.appendChild(div);
+                });
+            });
+        }
+
+        // Load feedback when the page loads
+        document.addEventListener("DOMContentLoaded", loadFeedback);
+    </script>
+
+</body>
+</html>
