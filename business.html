@@ -3,56 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Website</title>
+    <title>Elite Digital Solutions</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Link to CSS -->
     <link rel="stylesheet" href="business.css">
 </head>
 <body>
 
+    <!-- Header -->
     <header>
-        <div class="logo">ZORGATH INC.</div>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <ul>
-                <li><a href="project.html">Projects</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="feedback.html">Feedback</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="logo">Elite Digital</div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    </nav>
+</header>
 
+    <!-- Hero Section -->
     <section class="hero">
-        <h1>Elevate Your Business with Zorgath</h1>
-        <p>We craft high-performing websites & brands.</p>
-        <a href="#contact" class="btn">Get Started</a>
+        <h1>Welcome to <span class="glow">Elite Digital</span></h1>
+        <p>We craft <span class="highlight">luxury digital experiences</span> that elevate brands.</p>
+        <a href="#services" class="btn">Discover More</a>
     </section>
 
+    <!-- About Section -->
     <section id="about">
         <h2>About Us</h2>
-        <p>We provide cutting-edge solutions for your business growth.</p>
+        <p>We provide elite web design, branding, and AI-powered digital solutions for high-end businesses.</p>
     </section>
 
+    <!-- Services Section -->
     <section id="services">
-        <h2>Our Services</h2>
+        <h2>Our Premium Services</h2>
         <div class="service-box">
-            <h3>Web Development</h3>
-            <p>Custom websites for your brand.</p>
+            <h3>✨ Luxury Branding</h3>
+            <p>Exclusive logos & brand identity for high-class businesses.</p>
         </div>
         <div class="service-box">
-            <h3>SEO Optimization</h3>
-            <p>Boost your rankings & visibility.</p>
+            <h3>💎 High-End Web Design</h3>
+            <p>Custom websites with a premium feel and elite user experience.</p>
         </div>
         <div class="service-box">
-            <h3>Brand Strategy</h3>
-            <p>Turn your vision into reality.</p>
+            <h3>🤖 AI-Powered Marketing</h3>
+            <p>Leverage AI for high-converting strategies & maximum growth.</p>
         </div>
     </section>
 
+    <!-- Portfolio Section -->
+    <section id="portfolio">
+        <h2>Our Work</h2>
+        <div class="portfolio-item">
+            <h3>Luxury Brand Identity</h3>
+            <p>A rebranding project for an elite fashion brand.</p>
+        </div>
+        <div class="portfolio-item">
+            <h3>Premium E-Commerce Site</h3>
+            <p>A stunning online store for luxury products.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
     <section id="contact">
-        <h2>Contact Us</h2>
+        <h2>Get in Touch</h2>
         <form>
             <input type="text" placeholder="Your Name" required>
             <input type="email" placeholder="Your Email" required>
@@ -60,9 +84,10 @@
             <button type="submit">Send Message</button>
         </form>
     </section>
-
+<script src="business.js"></script>
+    <!-- Footer -->
     <footer>
-        <p>© 2025 Zorgath Inc. All Rights Reserved.</p>
+        <p>© 2025 Elite Digital Solutions | All Rights Reserved</p>
     </footer>
 
 </body>

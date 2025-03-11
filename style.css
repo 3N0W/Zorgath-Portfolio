@@ -1,115 +1,153 @@
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #121212;
-    color: #fff;
-    text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap');
+
+:root {
+    --primary-color: #121212; /* Dark background */
+    --secondary-color: #1f1f1f; /* Slightly lighter dark */
+    --accent-color: #FFD700; /* Gold for luxury */
+    --text-color: #fff;
+    --hover-glow: rgba(255, 215, 0, 0.7);
 }
 
-/* Header */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
 header {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
-    background: #1a1a1a;
+    align-items: center;
+    padding: 20px 80px;
+    background-color: var(--secondary-color);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(255, 215, 0, 0.2);
 }
+
 .logo {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    transition: 0.3s ease-in-out;
 }
+
+.logo:hover {
+    transform: scale(1.1);
+    text-shadow: 0 0 10px var(--hover-glow);
+}
+
 nav ul {
-    list-style: none;
     display: flex;
+    list-style: none;
 }
+
 nav ul li {
     margin: 0 15px;
 }
+
 nav ul li a {
-    color: #fff;
     text-decoration: none;
-}
-nav ul li .active {
-    color: #ff5733;
+    color: var(--text-color);
+    font-weight: 400;
+    transition: 0.3s;
+    position: relative;
 }
 
-/* Hero Section */
+nav ul li a:hover {
+    color: var(--accent-color);
+}
+
 .hero {
-    padding: 130px 20px;
-    background: linear-gradient(to right, #222, #444);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: url('hero-bg.jpg') center/cover no-repeat; /* Replace with a suitable background */
 }
+
 .hero h1 {
-    font-size: 36px;
+    font-size: 3rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-20px);
 }
+
 .hero p {
-    font-size: 18px;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
 }
+
+.highlight {
+    color: var(--accent-color);
+}
+
 .btn {
-    padding: 10px 20px;
-    background: #ff5733;
-    color: #fff;
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    font-weight: bold;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 30px;
+    box-shadow: 0 0 15px var(--hover-glow);
+    transition: 0.3s ease-in-out;
 }
 
-/* Sections */
+.btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px var(--hover-glow);
+}
+
 section {
-    padding: 50px 20px;
+    padding: 80px 100px;
 }
 
-/* Services */
-.service-box {
-    background: #222;
-    margin: 20px;
+#about, #services, #projects, #why-choose-me, #cta {
+    text-align: center;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+.service-box, .project, .reason {
+    background: var(--secondary-color);
     padding: 20px;
-    border-radius: 5px;
-}
-
-/* Projects */
-.project {
-    background: #222;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 5px;
-}
-
-/* Call to Action */
-#cta {
-    background: #1a1a1a;
-    padding: 50px;
-}
-
-/* Footer */
-footer {
-    background: #1a1a1a;
-    padding: 20px;
-    margin-top: 30px;
-}
-
-#feedback {
-    background: #222;
-    padding: 40px;
+    margin: 20px 0;
     border-radius: 10px;
-    margin: 20px;
+    transition: 0.3s;
+    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.2);
 }
-input, textarea {
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
+
+.service-box:hover, .project:hover, .reason:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5);
 }
-button {
-    padding: 10px 20px;
-    background: #ff5733;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-.feedback-item {
-    background: #333;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    box-shadow: 0px -4px 10px rgba(255, 215, 0, 0.2);
 }

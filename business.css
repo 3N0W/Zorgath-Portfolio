@@ -1,92 +1,197 @@
 /* General Styling */
 body {
-    font-family: Arial, sans-serif;
+    background: #0d0d0d;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
     margin: 0;
     padding: 0;
-    background: #121212;
-    color: #fff;
     text-align: center;
 }
 
-/* Header */
+/* Navigation */
 header {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
-    background: #1a1a1a;
+    align-items: center;
+    padding: 15px 5%;
+    background: #111;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2);
+    position: relative;
 }
+
+/* Logo */
 .logo {
-    font-size: 24px;
+    font-size: 1.8rem;
     font-weight: bold;
+    color: gold;
 }
-nav ul {
-    list-style: none;
+
+/* Default Nav Styling */
+nav {
     display: flex;
+    align-items: center;
 }
-nav ul li {
-    margin: 0 15px;
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
 }
-nav ul li a {
-    color: #fff;
+
+/* Navigation Links */
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
     text-decoration: none;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: gold;
+    text-shadow: 0 0 10px gold;
+}
+
+/* Hamburger Menu */
+.menu-toggle {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #FFD700;
+}
+
+/* Responsive Navigation */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.95);
+        position: absolute;
+        top: 60px;
+        right: 5%;
+        width: 200px;
+        text-align: center;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
 }
 
 /* Hero Section */
 .hero {
-    padding: 100px 20px;
-    background: linear-gradient(to right, #222, #444);
+    padding: 100px 5%;
+    background: linear-gradient(120deg, black, #222);
 }
+
 .hero h1 {
-    font-size: 36px;
+    font-size: 3rem;
+    font-weight: 700;
 }
-.hero p {
-    font-size: 18px;
+
+.glow {
+    color: gold;
+    text-shadow: 0 0 15px gold;
 }
+
+/* Buttons */
 .btn {
-    padding: 10px 20px;
-    background: #ff5733;
-    color: #fff;
-    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: gold;
+    color: black;
+    font-weight: bold;
     border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 0 10px gold;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #fff;
+    color: black;
+    box-shadow: 0 0 15px gold;
 }
 
 /* Sections */
 section {
-    padding: 50px 20px;
+    padding: 60px 5%;
+}
+
+h2 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid gold;
+    display: inline-block;
+    padding-bottom: 10px;
 }
 
 /* Services */
 .service-box {
     background: #222;
-    margin: 20px;
+    margin: 20px auto;
     padding: 20px;
-    border-radius: 5px;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px gold;
+}
+
+/* Portfolio */
+.portfolio-item {
+    background: #222;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px gold;
 }
 
 /* Contact Form */
-form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: 0 auto;
-}
 form input, form textarea {
+    width: 80%;
+    padding: 10px;
     margin: 10px 0;
-    padding: 10px;
     border: none;
     border-radius: 5px;
-}
-button {
-    padding: 10px;
-    background: #ff5733;
-    border: none;
+    background: #222;
     color: white;
+    outline: none;
+}
+
+form button {
+    padding: 12px 25px;
+    background: gold;
+    color: black;
+    font-weight: bold;
     border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 0 10px gold;
+    transition: 0.3s;
+}
+
+form button:hover {
+    background: white;
+    color: black;
+    box-shadow: 0 0 15px gold;
 }
 
 /* Footer */
 footer {
-    background: #1a1a1a;
     padding: 20px;
-    margin-top: 30px;
+    background: #111;
 }

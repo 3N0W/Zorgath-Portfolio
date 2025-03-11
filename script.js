@@ -1,36 +1,50 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const feedbackForm = document.getElementById("feedbackForm");
-    const feedbackList = document.getElementById("feedbackList");
+document.addEventListener('DOMContentLoaded', function() {
+  // GSAP Animations for Hero Section
+  gsap.to('.hero h1', { duration: 1, opacity: 1, y: 0, delay: 0.5, ease: "power2.out" });
+  gsap.to('.hero p', { duration: 1, opacity: 1, y: 0, delay: 0.7, ease: "power2.out" });
+  gsap.to('.btn', { duration: 1, opacity: 1, y: 0, delay: 1, ease: "power2.out" });
 
-    // Load saved feedback from LocalStorage
-    function loadFeedback() {
-        feedbackList.innerHTML = "";
-        const feedbacks = JSON.parse(localStorage.getItem("feedback")) || [];
+  // Three.js 3D Interactive Element Setup
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 500, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, 500);
+  document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        feedbacks.forEach(feedback => {
-            const div = document.createElement("div");
-            div.classList.add("feedback-item");
-            div.innerHTML = `<strong>${feedback.name}:</strong> ${feedback.message}`;
-            feedbackList.appendChild(div);
-        });
-    }
+  // Create a premium looking sphere geometry
+  const geometry = new THREE.SphereGeometry(1, 32, 32);
+  const material = new THREE.MeshStandardMaterial({ 
+      color: 0xf39c12,  // Gold hue for luxury
+      metalness: 0.6, 
+      roughness: 0.4 
+  });
+  const sphere = new THREE.Mesh(geometry, material);
+  scene.add(sphere);
 
-    // Handle form submission
-    feedbackForm.addEventListener("submit", (event) => {
-        event.preventDefault();
+  // Add lighting for an elegant glow effect
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
 
-        const name = document.getElementById("name").value;
-        const message = document.getElementById("message").value;
+  const pointLight = new THREE.PointLight(0xffffff, 1);
+  pointLight.position.set(5, 5, 5);
+  scene.add(pointLight);
 
-        if (name && message) {
-            const feedbacks = JSON.parse(localStorage.getItem("feedback")) || [];
-            feedbacks.push({ name, message });
-            localStorage.setItem("feedback", JSON.stringify(feedbacks));
+  // Set camera position
+  camera.position.z = 3;
 
-            feedbackForm.reset();
-            loadFeedback(); // Refresh feedback list
-        }
-    });
+  // Animate the sphere with a slow, refined rotation
+  function animate() {
+    requestAnimationFrame(animate);
+    sphere.rotation.x += 0.005;
+    sphere.rotation.y += 0.005;
+    renderer.render(scene, camera);
+  }
+  animate();
 
-    loadFeedback(); // Load feedback when page loads
+  // Responsive resizing for the canvas
+  window.addEventListener('resize', function() {
+    camera.aspect = window.innerWidth / 500;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, 500);
+  });
 });
